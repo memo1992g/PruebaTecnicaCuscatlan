@@ -1,0 +1,70 @@
+server:
+  port: ${APP_PORT:8089}
+  servlet:
+    context-path: ${APP_PATH:/api-prueba-cuscatlan}
+logging.level.org.springframework.security: DEBUG
+openapi:
+  project-title: Prueba Tecnica Cuscatlan Microservice
+  project-version: 1.0.0
+  project-description: Prueba Tecnica Cuscatlan Microservice
+
+jwt:
+  secret: mySecret
+  expiration: 3000000
+  user: prueba
+  pass: 12345
+
+spring:
+  config:
+    import: "optional:configserver:"
+
+  shopping-cart:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=America/El_Salvador
+      username: postgres
+      password: root
+      driverClassName: org.postgresql.Driver
+      dialect:  org.hibernate.dialect.PostgreSQLDialect
+      ddl: none
+      hikari:
+        connection-test-query: SELECT 1
+        maximum-pool-size: 10
+        keepalive-time: 100000
+        max-lifetime: 120000
+        minimum-idle: 0
+        idle-timeout: 300000
+        pool-name: OrderRegistrationHikariPool
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.SybaseDialect
+    properties:
+      hibernate:
+##        default_schema: SCHEMA
+       dialect: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  name: ${APP_NAME:api-shopping-cart}
+  conf:
+    date:
+      format: ${APP_DATE_FORMAT:dd/MM/yyyy HH:mm:ss Z}
+    rest:
+      timeout: ${APP_REST_TIMEOUT:15000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health
+  info:
+    enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger/index.html
+    enabled: true
